@@ -199,4 +199,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 返回
         return ResponseResult.okResult(pageVo);
     }
+
+    @Override
+    public ResponseResult updateArticle(UpdateArticleVo articleVo) {
+
+        Article article = BeanCopyUtil.copyBean(articleVo, Article.class);
+        updateById(article);
+        return ResponseResult.okResult();
+    }
 }

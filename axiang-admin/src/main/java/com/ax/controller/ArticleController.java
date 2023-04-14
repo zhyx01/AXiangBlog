@@ -5,6 +5,7 @@ import com.ax.domain.ResponseResult;
 import com.ax.domain.dto.AddArticleDto;
 import com.ax.domain.dto.ArticleListDto;
 import com.ax.domain.entity.Article;
+import com.ax.domain.vo.UpdateArticleVo;
 import com.ax.service.ArticleService;
 import com.ax.utils.BeanCopyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,19 @@ public class ArticleController {
     @SystemLog(businessName = "博客后台: 文章列表")
     public ResponseResult getArticleList(Integer pageNum, Integer pageSize, ArticleListDto articleListDto) {
         return articleService.articleList(pageNum, pageSize, articleListDto);
+    }
+
+    @GetMapping("/{id}")
+    @SystemLog(businessName = "修改查询")
+    public ResponseResult getForUpdate(@PathVariable Long id) {
+        Article article = articleService.getById(id);
+        UpdateArticleVo updateArticleVo = BeanCopyUtil.copyBean(article, UpdateArticleVo.class);
+        return ResponseResult.okResult(updateArticleVo);
+    }
+
+    @PutMapping
+    public ResponseResult updateArticle(@RequestBody UpdateArticleVo articleVo) {
+
+        return articleService.updateArticle(articleVo);
     }
 }

@@ -4,6 +4,7 @@ import com.ax.domain.ResponseResult;
 import com.ax.domain.dto.AddArticleDto;
 import com.ax.domain.dto.ArticleListDto;
 import com.ax.domain.entity.Article;
+import com.ax.domain.vo.UpdateArticleVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface ArticleService extends IService<Article> {
@@ -59,4 +60,12 @@ public interface ArticleService extends IService<Article> {
      * date: 2023/4/14 0014 <br>
      */
     ResponseResult articleList(Integer pageNum, Integer pageSize, ArticleListDto articleListDto);
+
+    /**
+     * description: 修改文章内容
+     * @param articleVo: 文章内容
+     * @return: ResponseResult <br>
+     * date: 2023/4/14 0014 <br>
+     */
+    ResponseResult updateArticle(UpdateArticleVo articleVo);
 }
