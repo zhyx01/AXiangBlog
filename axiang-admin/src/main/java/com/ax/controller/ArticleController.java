@@ -52,8 +52,16 @@ public class ArticleController {
     }
 
     @PutMapping
+    @SystemLog(businessName = "修改文章内容")
     public ResponseResult updateArticle(@RequestBody UpdateArticleVo articleVo) {
 
         return articleService.updateArticle(articleVo);
+    }
+
+    @DeleteMapping("/{id}")
+    @SystemLog(businessName = "删除文章")
+    public ResponseResult deleteArticle(@PathVariable Long id) {
+        articleService.removeById(id);
+        return ResponseResult.okResult();
     }
 }
