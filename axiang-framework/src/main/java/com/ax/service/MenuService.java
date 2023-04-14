@@ -1,6 +1,8 @@
 package com.ax.service;
 
+import com.ax.domain.dto.MenuListDto;
 import com.ax.domain.entity.Menu;
+import com.ax.domain.vo.MenuVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -29,4 +31,12 @@ public interface MenuService extends IService<Menu> {
      * date: 2023/4/11 0011 <br>
      */
     List<Menu> selectRouterMenuTreeByUserId(Long userId);
+
+    /**
+     * description: 查询菜单列表
+     * @param menuListDto: 封装条件
+     * @return: List<Menu> <br>
+     * date: 2023/4/14 0014 <br>
+     */
+    List<MenuVo> getAllList(MenuListDto menuListDto);
 }
