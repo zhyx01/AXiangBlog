@@ -4,13 +4,11 @@ import com.ax.annotation.SystemLog;
 import com.ax.constans.SystemConstants;
 import com.ax.domain.ResponseResult;
 import com.ax.domain.dto.AddArticleDto;
+import com.ax.domain.dto.ArticleListDto;
 import com.ax.domain.entity.Article;
 import com.ax.domain.entity.ArticleTag;
 import com.ax.domain.entity.Category;
-import com.ax.domain.vo.ArticleDetailVo;
-import com.ax.domain.vo.ArticleListVo;
-import com.ax.domain.vo.HotArticleVo;
-import com.ax.domain.vo.PageVo;
+import com.ax.domain.vo.*;
 import com.ax.mapper.ArticleMapper;
 import com.ax.service.ArticleService;
 import com.ax.service.ArticleTagService;
@@ -24,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.xml.bind.attachment.AttachmentMarshaller;
 import java.util.ArrayList;
@@ -177,5 +176,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 添加 博客和标签之间的关联
         articleTagService.saveBatch(articleTags);
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult articleList(Integer pageNum, Integer pageSize, ArticleListDto articleListDto) {
+
+        // 查询所有
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        // 条件
+        queryWrapper.eq(StringUtils.hasText(articleListDto.getTitle()), Article::getTitle, articleListDto.getTitle());
+        queryWrapper.eq(StringUtils.hasText(articleListDto.getSummary()), Article::getSummary, articleListDto.getSummary());
+        //queryWrapper.eq(Article::getStatus, SystemConstants.NORMAL);
+
+        // 分页
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        page(page, queryWrapper);
+
+        // 封装
+        List<AdminArticleListVo> adminArticleListVos = BeanCopyUtil.copyBeanList(page.getRecords(), AdminArticleListVo.class);
+        PageVo pageVo = new PageVo(adminArticleListVos, page.getTotal());
+
+        // 返回
+        return ResponseResult.okResult(pageVo);
     }
 }

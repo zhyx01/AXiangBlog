@@ -2,6 +2,7 @@ package com.ax.service;
 
 import com.ax.domain.ResponseResult;
 import com.ax.domain.dto.AddArticleDto;
+import com.ax.domain.dto.ArticleListDto;
 import com.ax.domain.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -48,4 +49,14 @@ public interface ArticleService extends IService<Article> {
      * date: 2023/4/12 0012 <br>
      */
     ResponseResult add(AddArticleDto addArticleDto);
+
+    /**
+     * description: 博客后台: 查看文章列表
+     * @param pageNum: 页码
+     * @param pageSize: 显示大小
+     * @param articleListDto: 条件
+     * @return: ResponseResult <br>
+     * date: 2023/4/14 0014 <br>
+     */
+    ResponseResult articleList(Integer pageNum, Integer pageSize, ArticleListDto articleListDto);
 }
