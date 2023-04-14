@@ -7,9 +7,7 @@ import com.ax.domain.entity.Menu;
 import com.ax.domain.vo.MenuVo;
 import com.ax.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,5 +30,12 @@ public class MenuController {
     public ResponseResult getSystemMenuList(MenuListDto menuListDto) {
         List<MenuVo> menuVos = menuService.getAllList(menuListDto);
         return ResponseResult.okResult(menuVos);
+    }
+
+    @PostMapping
+    @SystemLog(businessName = "新增菜单")
+    public ResponseResult add(@RequestBody Menu menu) {
+        menuService.save(menu);
+        return ResponseResult.okResult();
     }
 }
