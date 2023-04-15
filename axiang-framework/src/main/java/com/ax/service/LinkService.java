@@ -2,6 +2,7 @@ package com.ax.service;
 
 import com.ax.domain.ResponseResult;
 import com.ax.domain.entity.Link;
+import com.ax.domain.vo.PageVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 
@@ -20,4 +21,14 @@ public interface LinkService extends IService<Link> {
      * date: 2023/4/9 <br>
      */
     ResponseResult getAllLink();
+
+    /**
+     * description: 分页查询友链列表
+     * @param link: 封装条件
+     * @param pageNum:
+     * @param pageSize:
+     * @return: PageVo <br>
+     * date: 2023/4/16 0016 <br>
+     */
+    PageVo selectLinkPage(Link link, Integer pageNum, Integer pageSize);
 }
