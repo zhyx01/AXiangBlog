@@ -48,4 +48,8 @@ public interface RoleService extends IService<Role> {
      * date: 2023/4/16 0016 <br>
      */
     void updateRole(Role role);
+
+    List<Role> selectRoleAll();
+
+    List<Long> selectRoleIdByUserId(Long userId);
 }

@@ -23,4 +23,6 @@ public interface RoleMapper extends BaseMapper<Role> {
      * date: 2023/4/11 0011 <br>
      */
     List<String> selectRoleKeyByUserId(Long id);
+
+    List<Long> selectRoleIdByUserId(Long userId);
 }

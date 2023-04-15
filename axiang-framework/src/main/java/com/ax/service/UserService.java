@@ -35,4 +35,16 @@ public interface UserService extends IService<User> {
      * date: 2023/4/10 0010 <br>
      */
     ResponseResult register(User user);
+
+    ResponseResult selectUserPage(User user, Integer pageNum, Integer pageSize);
+
+    boolean checkUserNameUnique(String userName);
+
+    boolean checkPhoneUnique(User user);
+
+    boolean checkEmailUnique(User user);
+
+    ResponseResult addUser(User user);
+
+    void updateUser(User user);
 }

@@ -1,5 +1,6 @@
 package com.ax.service.impl;
 
+import com.ax.constans.SystemConstants;
 import com.ax.domain.ResponseResult;
 import com.ax.domain.entity.Role;
 import com.ax.domain.entity.RoleMenu;
@@ -8,6 +9,7 @@ import com.ax.mapper.RoleMapper;
 import com.ax.service.RoleMenuService;
 import com.ax.service.RoleService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +93,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 .map(memuId -> new RoleMenu(role.getId(), memuId))
                 .collect(Collectors.toList());
         roleMenuService.saveBatch(roleMenuList);
+    }
+
+    @Override
+    public List<Role> selectRoleAll() {
+        return list(Wrappers.<Role>lambdaQuery().eq(Role::getStatus, SystemConstants.NORMAL));
+    }
+
+    @Override
+    public List<Long> selectRoleIdByUserId(Long userId) {
+        return getBaseMapper().selectRoleIdByUserId(userId);
     }
 }
