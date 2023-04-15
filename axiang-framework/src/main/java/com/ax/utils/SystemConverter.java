@@ -1,23 +1,15 @@
 package com.ax.utils;
 
-
-
 import com.ax.domain.entity.Menu;
 import com.ax.domain.vo.MenuTreeVo;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 
 public class SystemConverter {
 
     private SystemConverter() {
     }
-
 
     public static List<MenuTreeVo> buildMenuSelectTree(List<Menu> menus) {
         List<MenuTreeVo> MenuTreeVos = menus.stream()
@@ -28,10 +20,8 @@ public class SystemConverter {
                 .map(o -> o.setChildren(getChildList(MenuTreeVos, o)))
                 .collect(Collectors.toList());
 
-
         return options;
     }
-
 
     /**
      * 得到子节点列表
@@ -42,6 +32,5 @@ public class SystemConverter {
                 .map(o -> o.setChildren(getChildList(list, o)))
                 .collect(Collectors.toList());
         return options;
-
     }
 }
