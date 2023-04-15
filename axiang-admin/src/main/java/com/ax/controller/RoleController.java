@@ -30,10 +30,21 @@ public class RoleController {
 
     @PutMapping("/changeStatus")
     @SystemLog(businessName = "修改角色状态")
-    public ResponseResult changeStatus(@RequestBody ChangeRoleStatusDto roleStatusDto){
+    public ResponseResult changeStatus(@RequestBody ChangeRoleStatusDto roleStatusDto) {
         Role role = new Role();
         role.setId(roleStatusDto.getRoleId());
         role.setStatus(roleStatusDto.getStatus());
         return ResponseResult.okResult(roleService.updateById(role));
+    }
+
+    /**
+     * 新增角色
+     */
+    @PostMapping
+    @SystemLog(businessName = "新增角色")
+    public ResponseResult add(@RequestBody Role role) {
+        roleService.insertRole(role);
+        return ResponseResult.okResult();
+
     }
 }

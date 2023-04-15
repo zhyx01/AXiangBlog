@@ -85,6 +85,19 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return count(queryWrapper) != 0;
     }
 
+    @Override
+    public List<Menu> selectMenuList(Menu menu) {
+
+        LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+        //menuName模糊查询
+        queryWrapper.like(StringUtils.hasText(menu.getMenuName()),Menu::getMenuName,menu.getMenuName());
+        queryWrapper.eq(StringUtils.hasText(menu.getStatus()),Menu::getStatus,menu.getStatus());
+        //排序 parent_id和order_num
+        queryWrapper.orderByAsc(Menu::getParentId,Menu::getOrderNum);
+        List<Menu> menus = list(queryWrapper);
+        return menus;
+    }
+
     private List<Menu> builderMenuTree(List<Menu> menus, Long parentId) {
         List<Menu> menuTree = menus.stream()
                 .filter(menu -> menu.getParentId().equals(parentId))

@@ -32,4 +32,12 @@ public interface RoleService extends IService<Role> {
      * date: 2023/4/15 0015 <br>
      */
     ResponseResult selectRolePage(Role role, Integer pageNum, Integer pageSize);
+
+    /**
+     * description: 新增角色信息, 绑定身份
+     * @param role:
+     * @return: void <br>
+     * date: 2023/4/16 0016 <br>
+     */
+    void insertRole(Role role);
 }

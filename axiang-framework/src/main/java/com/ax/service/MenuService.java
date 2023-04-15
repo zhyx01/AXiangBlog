@@ -47,4 +47,12 @@ public interface MenuService extends IService<Menu> {
      * date: 2023/4/15 0015 <br>
      */
     boolean hasChild(Long menuId);
+
+    /**
+     * description: 添加角色, 查询菜单列表选项
+     * @param menu:
+     * @return: List<Menu> <br>
+     * date: 2023/4/16 0016 <br>
+     */
+    List<Menu> selectMenuList(Menu menu);
 }
