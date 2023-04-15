@@ -6,6 +6,7 @@ import com.ax.domain.dto.MenuListDto;
 import com.ax.domain.entity.Menu;
 import com.ax.domain.vo.MenuTreeVo;
 import com.ax.domain.vo.MenuVo;
+import com.ax.domain.vo.RoleMenuTreeSelectVo;
 import com.ax.service.MenuService;
 import com.ax.utils.SystemConverter;
 import io.swagger.annotations.ApiOperation;
@@ -85,6 +86,19 @@ public class MenuController {
         List<Menu> menus = menuService.selectMenuList(new Menu());
         List<MenuTreeVo> options =  SystemConverter.buildMenuSelectTree(menus);
         return ResponseResult.okResult(options);
+    }
+
+    /**
+     * 加载对应角色菜单列表树
+     */
+    @GetMapping(value = "/roleMenuTreeselect/{roleId}")
+    @SystemLog(businessName = "加载对应角色菜单列表树")
+    public ResponseResult roleMenuTreeSelect(@PathVariable("roleId") Long roleId) {
+        List<Menu> menus = menuService.selectMenuList(new Menu());
+        List<Long> checkedKeys = menuService.selectMenuListByRoleId(roleId);
+        List<MenuTreeVo> menuTreeVos = SystemConverter.buildMenuSelectTree(menus);
+        RoleMenuTreeSelectVo vo = new RoleMenuTreeSelectVo(checkedKeys,menuTreeVos);
+        return ResponseResult.okResult(vo);
     }
 
 }

@@ -55,4 +55,12 @@ public interface MenuService extends IService<Menu> {
      * date: 2023/4/16 0016 <br>
      */
     List<Menu> selectMenuList(Menu menu);
+
+    /**
+     * description: 加载对应角色菜单列表树
+     * @param roleId: id
+     * @return: List<Long> <br>
+     * date: 2023/4/16 0016 <br>
+     */
+    List<Long> selectMenuListByRoleId(Long roleId);
 }

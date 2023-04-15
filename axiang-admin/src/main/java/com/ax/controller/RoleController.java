@@ -47,4 +47,35 @@ public class RoleController {
         return ResponseResult.okResult();
 
     }
+
+    /**
+     * 根据角色编号获取详细信息
+     */
+    @GetMapping(value = "/{roleId}")
+    @SystemLog(businessName = "根据角色编号获取详细信息(修改角色信息)")
+    public ResponseResult getInfo(@PathVariable Long roleId) {
+        Role role = roleService.getById(roleId);
+        return ResponseResult.okResult(role);
+    }
+
+    /**
+     * 修改保存角色
+     */
+    @PutMapping
+    @SystemLog(businessName = "更新角色信息接口")
+    public ResponseResult edit(@RequestBody Role role) {
+        roleService.updateRole(role);
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 删除角色
+     * @param id
+     */
+    @DeleteMapping("/{id}")
+    @SystemLog(businessName = "删除角色")
+    public ResponseResult remove(@PathVariable(name = "id") Long id) {
+        roleService.removeById(id);
+        return ResponseResult.okResult();
+    }
 }

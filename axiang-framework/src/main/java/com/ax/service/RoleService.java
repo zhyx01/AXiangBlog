@@ -40,4 +40,12 @@ public interface RoleService extends IService<Role> {
      * date: 2023/4/16 0016 <br>
      */
     void insertRole(Role role);
+
+    /**
+     * description: 修改角色
+     * @param role:
+     * @return: void <br>
+     * date: 2023/4/16 0016 <br>
+     */
+    void updateRole(Role role);
 }
