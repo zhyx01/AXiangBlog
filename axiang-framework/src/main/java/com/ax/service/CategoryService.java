@@ -3,6 +3,7 @@ package com.ax.service;
 import com.ax.domain.ResponseResult;
 import com.ax.domain.entity.Category;
 import com.ax.domain.vo.CategoryVo;
+import com.ax.domain.vo.PageVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -31,4 +32,14 @@ public interface CategoryService extends IService<Category> {
      * date: 2023/4/12 0012 <br>
      */
     List<CategoryVo> getAllCategoryList();
+
+    /**
+     * description: 分页查询分类列表
+     * @param category: 封装条件
+     * @param pageNum: 页码
+     * @param pageSize: 每页显示大小
+     * @return: PageVo <br>
+     * date: 2023/4/16 0016 <br>
+     */
+    PageVo selectCategoryPage(Category category, Integer pageNum, Integer pageSize);
 }

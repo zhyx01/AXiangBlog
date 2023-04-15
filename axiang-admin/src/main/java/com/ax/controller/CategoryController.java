@@ -7,18 +7,16 @@ import com.ax.domain.ResponseResult;
 import com.ax.domain.entity.Category;
 import com.ax.domain.vo.CategoryVo;
 import com.ax.domain.vo.ExcelCategoryVo;
+import com.ax.domain.vo.PageVo;
 import com.ax.enums.AppHttpCodeEnum;
 import com.ax.service.CategoryService;
 import com.ax.utils.BeanCopyUtil;
 import com.ax.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -69,5 +67,41 @@ public class CategoryController {
             response.reset();
             WebUtils.renderString(response, JSON.toJSONString(result));
         }
+    }
+
+    @PutMapping
+    @SystemLog(businessName = "修改")
+    public ResponseResult edit(@RequestBody Category category){
+        categoryService.updateById(category);
+        return ResponseResult.okResult();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @SystemLog(businessName = "删除")
+    public ResponseResult remove(@PathVariable(value = "id")Long id){
+        categoryService.removeById(id);
+        return ResponseResult.okResult();
+    }
+
+    @GetMapping(value = "/{id}")
+    @SystemLog(businessName = "获取详细信息")
+    public ResponseResult getInfo(@PathVariable(value = "id")Long id){
+        Category category = categoryService.getById(id);
+        return ResponseResult.okResult(category);
+    }
+    @PostMapping
+    @SystemLog(businessName = "添加")
+    public ResponseResult add(@RequestBody Category category){
+        categoryService.save(category);
+        return ResponseResult.okResult();
+    }
+    /**
+     * 获取用户列表
+     */
+    @GetMapping("/list")
+    @SystemLog(businessName = "获取用户列表")
+    public ResponseResult list(Category category, Integer pageNum, Integer pageSize) {
+        PageVo pageVo = categoryService.selectCategoryPage(category, pageNum, pageSize);
+        return ResponseResult.okResult(pageVo);
     }
 }
