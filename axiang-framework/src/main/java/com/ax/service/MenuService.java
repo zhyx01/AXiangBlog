@@ -39,4 +39,12 @@ public interface MenuService extends IService<Menu> {
      * date: 2023/4/14 0014 <br>
      */
     List<MenuVo> getAllList(MenuListDto menuListDto);
+
+    /**
+     * description: 删除菜单
+     * @param menuId:
+     * @return: boolean <br>
+     * date: 2023/4/15 0015 <br>
+     */
+    boolean hasChild(Long menuId);
 }

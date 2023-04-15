@@ -6,6 +6,7 @@ import com.ax.domain.dto.MenuListDto;
 import com.ax.domain.entity.Menu;
 import com.ax.domain.vo.MenuVo;
 import com.ax.service.MenuService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,39 @@ public class MenuController {
     @SystemLog(businessName = "新增菜单")
     public ResponseResult add(@RequestBody Menu menu) {
         menuService.save(menu);
+        return ResponseResult.okResult();
+    }
+
+    @GetMapping(value = "/{menuId}")
+    @SystemLog(businessName = "修改菜单查询回显")
+    public ResponseResult getInfo(@PathVariable Long menuId) {
+        return ResponseResult.okResult(menuService.getById(menuId));
+    }
+
+    @PutMapping
+    @SystemLog(businessName = "修改菜单")
+    public ResponseResult edit(@RequestBody Menu menu) {
+        if (menu.getId().equals(menu.getParentId())) {
+            return ResponseResult.errorResult(500, "修改菜单'" + menu.getMenuName()
+                    + "'失败，上级菜单不能选择自己");
+        }
+        menuService.updateById(menu);
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * description: 能够删除菜单，但是如果要删除的菜单有子菜单则提示：存在子菜单不允许删除 并且删除失败
+     * @param menuId: 菜单id
+     * @return: ResponseResult <br>
+     * date: 2023/4/15 0015 <br>
+     */
+    @DeleteMapping("/{menuId}")
+    @SystemLog(businessName = "删除菜单")
+    public ResponseResult remove(@PathVariable("menuId") Long menuId) {
+        if (menuService.hasChild(menuId)) {
+            return ResponseResult.errorResult(500,"存在子菜单不允许删除");
+        }
+        menuService.removeById(menuId);
         return ResponseResult.okResult();
     }
 }
