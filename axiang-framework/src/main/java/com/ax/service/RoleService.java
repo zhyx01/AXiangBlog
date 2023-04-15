@@ -1,5 +1,6 @@
 package com.ax.service;
 
+import com.ax.domain.ResponseResult;
 import com.ax.domain.entity.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -21,4 +22,14 @@ public interface RoleService extends IService<Role> {
      * date: 2023/4/11 0011 <br>
      */
     List<String> selectRoleKeyByUserId(Long id);
+
+    /**
+     * description: 分页查角色信息
+     * @param role: 查询条件(允许为空)
+     * @param pageNum: 当前页码
+     * @param pageSize: 每页显示大小
+     * @return: ResponseResult <br>
+     * date: 2023/4/15 0015 <br>
+     */
+    ResponseResult selectRolePage(Role role, Integer pageNum, Integer pageSize);
 }

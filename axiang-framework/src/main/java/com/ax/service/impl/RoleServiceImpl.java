@@ -1,10 +1,15 @@
 package com.ax.service.impl;
 
+import com.ax.domain.ResponseResult;
 import com.ax.domain.entity.Role;
+import com.ax.domain.vo.PageVo;
 import com.ax.mapper.RoleMapper;
 import com.ax.service.RoleService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,5 +33,30 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             return roleKeys;
         }
         return getBaseMapper().selectRoleKeyByUserId(id);
+    }
+
+    @Override
+    public ResponseResult selectRolePage(Role role, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<Role> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        //目前没有根据id查询
+        //lambdaQueryWrapper.eq(Objects.nonNull(role.getId()),Role::getId,role.getId());
+        lambdaQueryWrapper.like(StringUtils.hasText(role.getRoleName()),Role::getRoleName,role.getRoleName());
+        lambdaQueryWrapper.eq(StringUtils.hasText(role.getStatus()),Role::getStatus,role.getStatus());
+        lambdaQueryWrapper.orderByAsc(Role::getRoleSort);
+
+        Page<Role> page = new Page<>();
+        page.setCurrent(pageNum);
+        page.setSize(pageSize);
+        page(page,lambdaQueryWrapper);
+
+        //转换成VO
+        List<Role> roles = page.getRecords();
+
+        PageVo pageVo = new PageVo();
+        pageVo.setTotal(page.getTotal());
+        pageVo.setRows(roles);
+
+        // 返回
+        return ResponseResult.okResult(pageVo);
     }
 }
